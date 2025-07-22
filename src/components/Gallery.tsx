@@ -1,22 +1,11 @@
 import React, { useState } from 'react';
 
-// Todas las fotos en un solo array
-const allPhotos = [
-  { id: 1, url: "/_MG_8527_copy.jpg", alt: 'Retrato con iluminación dramática' },
-  { id: 2, url: "/_MG_8550_copy.jpg", alt: 'Persona en un tronco al atardecer' },
-  { id: 3, url: "/_MG_8606_copy.jpg", alt: 'Persona en un concierto' },
-  { id: 4, url: "/_MG_8452_copy.jpg", alt: 'Retrato de persona con camiseta blanca' },
-  { id: 5, url: "/_MG_8515_copy.jpg", alt: 'Retrato de persona con cabello rojo' },
-  { id: 6, url: "/IMG_5261_copy.jpg", alt: 'Producto en manos' },
-  { id: 7, url: "/_MG_8391_copy.jpg", alt: 'Botella de perfume azul con naranjas' },
-  { id: 8, url: "/_MG_8426_copy.jpg", alt: 'Dulces Sour Patch Kids' },
-  { id: 9, url: "/_MG_8434_copy.jpg", alt: 'Dulces Sour Patch Kids con más caramelos' },
-  { id: 10, url: "/_MG_7905_copy.jpg", alt: 'Fotografía arquitectónica' },
-  { id: 11, url: "/_MG_8055_copy.jpg", alt: 'Retrato con iluminación' },
-  { id: 12, url: "/_MG_8185_copy.jpg", alt: 'Retrato urbano' },
-  { id: 13, url: "/_MG_8198_copy.jpg", alt: 'Arquitectura histórica' },
-  { id: 14, url: "/_MG_8219_copy.jpg", alt: 'Retrato con fondo rojo' },
-];
+// Generar las 20 imágenes automáticamente
+const allPhotos = Array.from({ length: 20 }, (_, i) => ({
+  id: i + 1,
+  url: `/${i + 1}.jpg`,
+  alt: `Foto ${i + 1}`
+}));
 
 export const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
