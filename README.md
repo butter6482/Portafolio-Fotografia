@@ -1,10 +1,7 @@
 # Portafolio de Juan
 
-Este proyecto es un portafolio moderno hecho en React + Tailwind CSS.
+Sitio web minimalista hecho con **React** y **Tailwind CSS** para mostrar el trabajo fotográfico de Juan.
 
-## Secciones destacadas
+🔗 [Ver sitio en vivo](https://portafolio-fotografia.onrender.com)
 
-- Galería dividida por categorías (Retratos, Productos, Arquitectura)
-- Lightbox para ampliar fotos
-- Navegación interna con scroll suave
-https://portafolio-fotografia.onrender.com
+
