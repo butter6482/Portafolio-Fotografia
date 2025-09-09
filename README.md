@@ -14,4 +14,3 @@ Minimalist website built with **React** and **Tailwind CSS** to showcase Juan's 
 - **Frontend:** React, Tailwind CSS
 - **Deployment:** Render
 
-## 📂 Project Structure
