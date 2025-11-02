@@ -32,7 +32,13 @@ test.describe('External Links Health', () => {
     const igHref = await page.locator('a[href*="instagram.com"]').first().getAttribute('href');
     if (!igHref) test.skip('No Instagram link found');
 
-    const resp = await context.request.head(igHref!, { timeout: 5000, maxRedirects: 2 });
-    expect(resp.ok(), `Broken Instagram link: ${igHref}`).toBeTruthy();
+    // Permite más redirecciones y trata el login de IG como "reachable" en CI
+    const resp = await context.request.get(igHref!, { timeout: 8000, maxRedirects: 5 });
+    const finalUrl = resp.url();
+    const status = resp.status();
+    const isLoginGate = /instagram\.com\/accounts\/login/i.test(finalUrl);
+    const okish = (status >= 200 && status < 400) || isLoginGate;
+
+    expect(okish, `Instagram link not reachable (status=${status}, url=${finalUrl})`).toBeTruthy();
   });
 });
