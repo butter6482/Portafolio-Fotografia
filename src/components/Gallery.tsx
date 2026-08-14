@@ -73,9 +73,14 @@ export const Gallery = () => {
         </p>
         <div className="flex justify-center gap-6 mb-12 text-center flex-wrap">
           {CATEGORIES.map(cat => (
-            <a key={cat} href={`#${cat}`} className="font-semibold transition-all duration-300 hover:underline" style={{ color: 'var(--color-accent)' }}>
+            <button
+              key={cat}
+              onClick={() => document.getElementById(cat)?.scrollIntoView({ behavior: 'smooth' })}
+              className="font-semibold transition-all duration-300 hover:underline"
+              style={{ color: 'var(--color-accent)' }}
+            >
               {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </a>
+            </button>
           ))}
         </div>
         {CATEGORIES.map(renderCategory)}
