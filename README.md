@@ -7,7 +7,7 @@ Live Site: https://portafolio-fotografia.onrender.com
 
 ### Entrar al panel de administración
 1. Abrí tu navegador en el celular
-2. Andá a: `https://tu-sitio.onrender.com/admin`
+2. Andá a: `https://portafolio-fotografia.onrender.com/admin`
 3. Escribí tu usuario: **unseen.juan**
 4. Escribí tu contraseña
 5. Tocá **Entrar**
