@@ -3,3 +3,9 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 /* DO NOT DELETE THESE TAILWIND IMPORTS, OTHERWISE THE STYLING WILL NOT RENDER AT ALL */
+
+:root {
+  --color-bg: #f3f4f6;
+  --color-text: #111827;
+  --color-accent: #15803d;
+}
