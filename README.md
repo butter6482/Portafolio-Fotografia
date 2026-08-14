@@ -36,10 +36,10 @@ Live Site: https://portafolio-fotografia.onrender.com
 
 En Render → tu servicio → Environment, agregá estas dos variables para que el build de producción funcione:
 
-| Variable | Valor |
-|----------|-------|
-| `VITE_SUPABASE_URL` | `https://ygkixfucdkqypokupxvo.supabase.co` |
-| `VITE_SUPABASE_ANON_KEY` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlna2l4ZnVjZGtxeXBva3VweHZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2NTgzNTQsImV4cCI6MjEwMjIzNDM1NH0.yKZwHbZTpeM4lm3xmf3aymy_BduYQK9WmYOkoKnZm64` |
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+Los valores los encontrás en el dashboard de Supabase → Project Settings → API.
 
 Render hace auto-deploy desde `main` — una vez que agregues las variables, el próximo deploy ya incluye el CMS.
 
