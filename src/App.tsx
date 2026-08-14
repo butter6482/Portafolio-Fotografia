@@ -6,7 +6,6 @@ import { About } from './components/About'
 import { Gallery } from './components/Gallery'
 import { InstagramSection } from './components/InstagramSection'
 import { Footer } from './components/Footer'
-// @ts-ignore
 import { AdminApp } from './admin/AdminApp'
 import { useSiteSettings } from './hooks/useSiteSettings'
 
