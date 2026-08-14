@@ -1,40 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'
+import { supabase } from '../lib/supabaseClient'
 
-const allPhotos = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  url: `/${i + 1}.jpg`,
-  alt: `Foto ${i + 1}`
-}));
+type Photo = {
+  id: string
+  url: string
+  alt: string
+  category: string
+  sort_order: number
+}
 
-// Categorías actualizadas
-const photoCategories = {
-  retratos: [1, 2, 3, 4, 5, 6, 7, 12],
-  productos: [8, 9, 10, 11, 13, 14],
-  arquitectura: [15, 16, 17, 18, 19, 20],
-};
+const CATEGORIES = ['retratos', 'productos', 'arquitectura'] as const
+
+const FALLBACK_PHOTOS: Photo[] = [
+  ...([1, 2, 3, 4, 5, 6, 7].map((n, i) => ({ id: String(n), url: `/${n}.jpg`, alt: `Foto ${n}`, category: 'retratos', sort_order: i }))),
+  ...([8, 9, 10, 11].map((n, i) => ({ id: String(n), url: `/${n}.jpg`, alt: `Foto ${n}`, category: 'productos', sort_order: i }))),
+  { id: '12', url: '/12.jpg', alt: 'Foto 12', category: 'retratos', sort_order: 7 },
+  ...([13, 14].map((n, i) => ({ id: String(n), url: `/${n}.jpg`, alt: `Foto ${n}`, category: 'productos', sort_order: i + 4 }))),
+  ...([15, 16, 17, 18, 19, 20].map((n, i) => ({ id: String(n), url: `/${n}.jpg`, alt: `Foto ${n}`, category: 'arquitectura', sort_order: i }))),
+]
 
 export const Gallery = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [photos, setPhotos] = useState<Photo[]>(FALLBACK_PHOTOS)
+  const [selectedImage, setSelectedImage] = useState<Photo | null>(null)
 
-  const openLightbox = (image) => {
-    setSelectedImage(image);
-  };
+  useEffect(() => {
+    supabase
+      .from('photos')
+      .select('*')
+      .order('sort_order')
+      .then(({ data }) => {
+        if (data && data.length > 0) setPhotos(data)
+      })
+  }, [])
 
-  const closeLightbox = () => {
-    setSelectedImage(null);
-  };
-
-  const renderCategory = (title, ids, anchor) => (
-    <div className="mb-16" id={anchor}>
-      <h3 className="text-2xl font-semibold mb-6 text-center capitalize text-gray-800">{title}</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {allPhotos
-          .filter((img) => ids.includes(img.id))
-          .map((image) => (
+  const renderCategory = (cat: string) => {
+    const catPhotos = photos
+      .filter(p => p.category === cat)
+      .sort((a, b) => a.sort_order - b.sort_order)
+    if (catPhotos.length === 0) return null
+    return (
+      <div className="mb-16" id={cat} key={cat}>
+        <h3 className="text-2xl font-semibold mb-6 text-center capitalize" style={{ color: 'var(--color-text)' }}>
+          {cat}
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {catPhotos.map(image => (
             <div
               key={image.id}
               className="aspect-w-4 aspect-h-3 overflow-hidden cursor-pointer"
-              onClick={() => openLightbox(image)}
+              onClick={() => setSelectedImage(image)}
             >
               <img
                 src={image.url}
@@ -43,9 +57,10 @@ export const Gallery = () => {
               />
             </div>
           ))}
+        </div>
       </div>
-    </div>
-  );
+    )
+  }
 
   return (
     <section id="galeria" className="w-full py-24 bg-gray-50 scroll-mt-24">
@@ -54,28 +69,22 @@ export const Gallery = () => {
           Galería
         </h2>
         <p className="text-center text-lg mb-8 max-w-3xl mx-auto text-gray-600">
-          Esta es una selección de fotos que he tomado.  
-          Una mirada a través de mi lente, capturando momentos que no siempre se ven a primera vista.
+          Esta es una selección de fotos que he tomado. Una mirada a través de mi lente, capturando momentos que no siempre se ven a primera vista.
         </p>
-
-        {/* Navegación por categoría */}
         <div className="flex justify-center gap-6 mb-12 text-center flex-wrap">
-          <a href="#retratos" className="text-green-700 hover:underline font-semibold transition-all duration-300">Retratos</a>
-          <a href="#productos" className="text-green-700 hover:underline font-semibold transition-all duration-300">Productos</a>
-          <a href="#arquitectura" className="text-green-700 hover:underline font-semibold transition-all duration-300">Arquitectura</a>
+          {CATEGORIES.map(cat => (
+            <a key={cat} href={`#${cat}`} className="font-semibold transition-all duration-300 hover:underline" style={{ color: 'var(--color-accent)' }}>
+              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            </a>
+          ))}
         </div>
-
-        {/* Categorías */}
-        {renderCategory('Retratos', photoCategories.retratos, 'retratos')}
-        {renderCategory('Productos', photoCategories.productos, 'productos')}
-        {renderCategory('Arquitectura', photoCategories.arquitectura, 'arquitectura')}
+        {CATEGORIES.map(renderCategory)}
       </div>
 
-      {/* Lightbox */}
       {selectedImage && (
         <div
           className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-          onClick={closeLightbox}
+          onClick={() => setSelectedImage(null)}
         >
           <div className="relative max-w-4xl max-h-[90vh]">
             <img
@@ -85,7 +94,7 @@ export const Gallery = () => {
             />
             <button
               className="absolute top-4 right-4 text-white text-2xl"
-              onClick={closeLightbox}
+              onClick={() => setSelectedImage(null)}
             >
               &times;
             </button>
@@ -93,5 +102,5 @@ export const Gallery = () => {
         </div>
       )}
     </section>
-  );
-};
+  )
+}
