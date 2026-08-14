@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
 import { Hero } from './components/Hero'
 import { About } from './components/About'
@@ -27,11 +27,11 @@ function PublicSite() {
 export function App() {
   useSiteSettings()
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<PublicSite />} />
         <Route path="/admin/*" element={<AdminApp />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
