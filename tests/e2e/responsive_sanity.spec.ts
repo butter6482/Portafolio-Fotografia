@@ -52,11 +52,11 @@ test.describe('@mobile Responsive sanity', () => {
 
   test('gallery section renders on mobile', async ({ page }) => {
     await page.goto('/#galeria');
-    
+
     // Gallery section must be visible
     await expect(page.locator('#galeria')).toBeVisible();
-    
-    // At least one gallery image must be visible
-    await expect(page.locator('#galeria img').first()).toBeVisible();
+
+    // wait up to 10s for at least one image (may load from Supabase or fallback)
+    await expect(page.locator('#galeria img').first()).toBeVisible({ timeout: 10000 });
   });
 });
